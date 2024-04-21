@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 4000;
 // Configure Socket.IO to allow CORS from your client's origin
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://cw-client.netlify.app"],
     methods: ["Get", "POST"],
     allowedHeaders: ["content-type", "Authorization"],
   },
@@ -49,30 +49,6 @@ io.on("connection", (socket) => {
     console.log("A client disconnected!");
   });
 });
-
-// const getUserData = async (token) => {
-//   try {
-//     console.log(token);
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     };
-//     const res = await axios.get(
-//       `http://localhost:3000/api/fetchUserData`,
-//       config
-//     );
-
-//     const user = res.data;
-//     if (user.status === 200) {
-//       return user;
-//     } else {
-//       throw new Error(`Request failed with status code ${response.status}`);
-//     }
-//   } catch (err) {
-//     console.log("Error getting user data", err, err.message);
-//   }
-// };
 
 server.listen(PORT, () => {
   console.log(`server listening on port http://localhost:${PORT}`);
