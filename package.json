@@ -4,7 +4,8 @@
   "description": "chat applicaion to reach customer service",
   "main": "index.js",
   "scripts": {
-    "serve": "nodemon index.js"
+    "serve": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "megamindcodex",
   "license": "ISC",
