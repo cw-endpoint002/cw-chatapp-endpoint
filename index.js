@@ -19,7 +19,12 @@ const PORT = process.env.PORT || 4000;
 // Configure Socket.IO to allow CORS from your client's origin
 const io = socketIo(server, {
   cors: {
-    origin: ["http://localhost:5173", "https://cw-client.netlify.app"],
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "https://cw-client.netlify.app",
+      "https://cw-admin-client.netlify.app",
+    ],
     methods: ["Get", "POST"],
     allowedHeaders: ["content-type", "Authorization"],
   },
