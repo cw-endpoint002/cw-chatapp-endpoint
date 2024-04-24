@@ -42,6 +42,15 @@ io.on("connection", (socket) => {
 
   console.log(users);
 
+  socket.on("isTyping", (receiverName) => {
+    const recieverSocketId = users[receiverName];
+    io.to(recieverSocketId).emit("isTyping");
+  });
+  socket.on("typingStoped", (receiverName) => {
+    const recieverSocketId = users[receiverName];
+    io.to(recieverSocketId).emit("typingStoped");
+  });
+
   socket.on("message", (receiverName, message) => {
     const recieverSocketId = users[receiverName];
     console.log(receiverName, message);
