@@ -22,7 +22,7 @@ const io = socketIo(server, {
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
-      "https://cw-client.netlify.app",
+      "https://membershipcarrd.netlify.app",
       "https://cw-admin-client.netlify.app",
     ],
     methods: ["Get", "POST"],
