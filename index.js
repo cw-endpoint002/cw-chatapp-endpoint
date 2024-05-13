@@ -22,10 +22,10 @@ const io = socketIo(server, {
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
-      "https://membershipcarrd.netlify.app",
+      "https://dualipa-membership.netlify.app",
       "https://cw-admin-client.netlify.app",
     ],
-    methods: ["Get", "POST"],
+    methods: ["Get", "POST", "PUT", "DELETE"],
     allowedHeaders: ["content-type", "Authorization"],
   },
 });
@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
     console.log(users);
   });
 
-  console.log(users);
+  // console.log(users);
 
   socket.on("isTyping", (receiverName) => {
     const recieverSocketId = users[receiverName];
