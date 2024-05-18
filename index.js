@@ -4,8 +4,7 @@ const http = require("http");
 const socketIo = require("socket.io");
 const bodyPaser = require("body-parser");
 const cors = require("cors");
-// const axios = require("axios");
-
+const { cw_endpoint } = require("./src/constant/endpoint");
 const app = express();
 const server = http.createServer(app);
 // const socketIo = require("socket.io")(server);
@@ -36,8 +35,27 @@ io.on("connection", (socket) => {
   console.log("A client connected");
 
   socket.on("join", (userName) => {
+    console.log(`user ${userName} joined`);
     users[userName] = socket.id;
     console.log(users);
+    // console.log(`${userName} has read ${hasRead}`);
+    const condition = true;
+  });
+
+  app.post("/webhook/new_message", async (req, res) => {
+    try {
+      const data = req.body;
+
+      if (data) {
+        const { receiverName, hasRead } = data;
+        const receiverSocketId = users[receiverName];
+        io.to(receiverSocketId).emit("newMessage", receiverName, hasRead);
+        console.log("New webhook request", data);
+        res.status(200).json({ message: "request reached webhook" });
+      }
+    } catch {
+      res.status(500).send("Internal server Error");
+    }
   });
 
   // console.log(users);
@@ -53,6 +71,7 @@ io.on("connection", (socket) => {
 
   socket.on("message", (receiverName, message) => {
     const recieverSocketId = users[receiverName];
+
     console.log(receiverName, message);
     io.to(recieverSocketId).emit("message", message);
   });
@@ -63,6 +82,13 @@ io.on("connection", (socket) => {
     console.log("A client disconnected!");
   });
 });
+
+// import Routes from the Routes folder
+// const webHookRoute = require("./src/routes/webHookRoute");
+
+// use Route
+// app.use("/webhook", webHookRoute);
+// module.exports = { io };
 
 server.listen(PORT, () => {
   console.log(`server listening on port http://localhost:${PORT}`);
