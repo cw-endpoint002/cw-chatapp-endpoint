@@ -4,7 +4,7 @@ const http = require("http");
 const socketIo = require("socket.io");
 const bodyPaser = require("body-parser");
 const cors = require("cors");
-const { cw_endpoint } = require("./src/constant/endpoint");
+// const { cw_endpoint } = require("./src/constant/endpoint");
 const app = express();
 const server = http.createServer(app);
 // const socketIo = require("socket.io")(server);
@@ -47,9 +47,9 @@ io.on("connection", (socket) => {
       const data = req.body;
 
       if (data) {
-        const { receiverName, hasRead } = data;
+        const { receiverName } = data;
         const receiverSocketId = users[receiverName];
-        io.to(receiverSocketId).emit("newMessage", receiverName, hasRead);
+        io.to(receiverSocketId).emit("newMessage", receiverName);
         console.log("New webhook request", data);
         res.status(200).json({ message: "request reached webhook" });
       }
