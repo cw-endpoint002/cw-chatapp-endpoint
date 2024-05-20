@@ -39,7 +39,6 @@ io.on("connection", (socket) => {
     users[userName] = socket.id;
     console.log(users);
     // console.log(`${userName} has read ${hasRead}`);
-    const condition = true;
   });
 
   app.post("/webhook/new_message", async (req, res) => {
@@ -49,7 +48,7 @@ io.on("connection", (socket) => {
       if (data) {
         const { receiverName } = data;
         const receiverSocketId = users[receiverName];
-        io.to(receiverSocketId).emit("newMessage", receiverName);
+        io.to(receiverSocketId).emit("newMessage");
         console.log("New webhook request", data);
         res.status(200).json({ message: "request reached webhook" });
       }
@@ -63,6 +62,7 @@ io.on("connection", (socket) => {
   socket.on("isTyping", (receiverName) => {
     const recieverSocketId = users[receiverName];
     io.to(recieverSocketId).emit("isTyping");
+    console.log(`user is typing to ${receiverName}`);
   });
   socket.on("typingStoped", (receiverName) => {
     const recieverSocketId = users[receiverName];
